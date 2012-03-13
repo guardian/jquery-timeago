@@ -107,9 +107,12 @@
       <li><abbr id="testWording8" class="towords" title="90"></abbr> [90 sec]</li>
       <li><abbr id="testWording9" class="towords" title="120"></abbr> [120 sec]</li>
       <li><abbr id="testWording10" class="towords" title="2700"></abbr> [45 min]</li>
+      <li><abbr id="testWording10a" class="towords" title="3600"></abbr> [60 min]</li>
+      <li><abbr id="testWording10b" class="towords" title="3660"></abbr> [61 min]</li>
       <li><abbr id="testWording11" class="towords" title="5340"></abbr> [89 min]</li>
       <li><abbr id="testWording12" class="towords" title="5400"></abbr> [90 min]</li>
       <li><abbr id="testWording13" class="towords" title="7200"></abbr> [120 min]</li>
+      <li><abbr id="testWording13a" class="towords" title="7260"></abbr> [121 min]</li>
       <li><abbr id="testWording14" class="towords" title="82800"></abbr> [1380 min]</li>
       <li><abbr id="testWording15" class="towords" title="90000"></abbr> [25 hours]</li>
       <li><abbr id="testWording16a" class="towords" title="147600"></abbr> [41 hours]</li>
@@ -145,6 +148,7 @@
       <li><abbr id="testLatinSettings8" class="tolatin" title="90"></abbr> [90 sec]</li>
       <li><abbr id="testLatinSettings9" class="tolatin" title="120"></abbr> [120 sec]</li>
       <li><abbr id="testLatinSettings10" class="tolatin" title="2700"></abbr> [45 min]</li>
+      <li><abbr id="testLatinSettings10a" class="tolatin" title="3600"></abbr> [60 min]</li>
       <li><abbr id="testLatinSettings11" class="tolatin" title="5340"></abbr> [89 min]</li>
       <li><abbr id="testLatinSettings12" class="tolatin" title="5400"></abbr> [90 min]</li>
       <li><abbr id="testLatinSettings13" class="tolatin" title="7200"></abbr> [120 min]</li>
@@ -167,6 +171,7 @@
       <li><abbr id="testRussianSettings8" class="torussian" title="90"></abbr> [90 sec]</li>
       <li><abbr id="testRussianSettings9" class="torussian" title="120"></abbr> [120 sec]</li>
       <li><abbr id="testRussianSettings10" class="torussian" title="2700"></abbr> [45 min]</li>
+      <li><abbr id="testRussianSettings10a" class="torussian" title="3600"></abbr> [60 min]</li>
       <li><abbr id="testRussianSettings11" class="torussian" title="5340"></abbr> [89 min]</li>
       <li><abbr id="testRussianSettings12" class="torussian" title="5400"></abbr> [90 min]</li>
       <li><abbr id="testRussianSettings13" class="torussian" title="7200"></abbr> [120 min]</li>
@@ -346,11 +351,11 @@
       module("Wording");
 
       test("-120 min", function () {
-        ok(($("#testWording1").html() === "about 2 hours from now"), "Correctly parsed");
+        ok(($("#testWording1").html() === "2 hours from now"), "Correctly parsed");
       });
 
       test("-60 sec", function () {
-        ok(($("#testWording2").html() === "about a minute from now"), "Correctly parsed");
+        ok(($("#testWording2").html() === "a minute from now"), "Correctly parsed");
       });
 
       test("-30 sec", function () {
@@ -370,7 +375,7 @@
       });
 
       test("45 sec", function () {
-        ok(($("#testWording7").html() === "about a minute ago"), "Correctly parsed");
+        ok(($("#testWording7").html() === "a minute ago"), "Correctly parsed");
       });
 
       test("90 sec", function () {
@@ -382,31 +387,43 @@
       });
 
       test("45 min", function () {
-        ok(($("#testWording10").html() === "about an hour ago"), "Correctly parsed");
+        ok(($("#testWording10").html() === "45 minutes ago"), "Correctly parsed");
       });
 
+      test("60 min", function () {
+        ok(($("#testWording10a").html() === "1 hour ago"), "Correctly parsed");
+      });
+
+      test("61 min", function () {
+        ok(($("#testWording10b").html() === "1 hour and a minute ago"), "Correctly parsed");
+      });
+          
       test("89 min", function () {
-        ok(($("#testWording11").html() === "about an hour ago"), "Correctly parsed");
+        ok(($("#testWording11").html() === "1 hour and 29 minutes ago"), "Correctly parsed");
       });
 
       test("90 min", function () {
-        ok(($("#testWording12").html() === "about 2 hours ago"), "Correctly parsed");
+        ok(($("#testWording12").html() === "1 hour and 30 minutes ago"), "Correctly parsed");
       });
 
       test("120 min", function () {
-        ok(($("#testWording13").html() === "about 2 hours ago"), "Correctly parsed");
+        ok(($("#testWording13").html() === "2 hours ago"), "Correctly parsed");
+      });
+
+      test("121 min", function () {
+        ok(($("#testWording13a").html() === "2 hours and a minute ago"), "Correctly parsed");
       });
 
       test("1380 min", function () {
-        ok(($("#testWording14").html() === "about 23 hours ago"), "Correctly parsed");
+        ok(($("#testWording14").html() === "23 hours ago"), "Correctly parsed");
       });
 
       test("25 hours", function () {
-        ok(($("#testWording15").html() === "a day ago"), "Correctly parsed");
+        ok(($("#testWording15").html() === "about a day ago"), "Correctly parsed");
       });
 
       test("41 hour", function () {
-        ok(($("#testWording16a").html() === "a day ago"), "Correctly parsed");
+        ok(($("#testWording16a").html() === "about a day ago"), "Correctly parsed");
       });
       test("42 hours", function () {
         ok(($("#testWording16b").html() === "2 days ago"), "Correctly parsed");
@@ -475,13 +492,13 @@
       });
 
       test("hour", function () {
-        ok($("#testLatinSettings10").html().match(/^about-hay an-hay hour-hay/), "Settings correctly applied");
-        ok($("#testRussianSettings10").html().match(/^час/), "Settings correctly applied");
+        ok($("#testLatinSettings10a").html().match(/^about-hay an-hay hour-hay/), "Settings correctly applied");
+        ok($("#testRussianSettings10a").html().match(/^час/), "Settings correctly applied");
       });
 
       test("hours", function () {
-        ok($("#testLatinSettings12").html().match(/^about-hay 2 hours-hay/), "Settings correctly applied");
-        ok($("#testRussianSettings12").html().match(/^2 часа/), "Settings correctly applied");
+        ok($("#testLatinSettings13").html().match(/^about-hay 2 hours-hay/), "Settings correctly applied");
+        ok($("#testRussianSettings13").html().match(/^2 часа/), "Settings correctly applied");
         // TODO: Test "час" and "часов"
       });
 

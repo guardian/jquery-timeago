@@ -28,28 +28,8 @@
   $.extend($.timeago, {
     settings: {
       refreshMillis: 60000,
-      allowFuture: false,
-      strict: false, // more strict guardian wording for fuzzy times
+      allowFuture: false,    
       strings: {
-        prefixAgo: null,
-        prefixFromNow: null,
-        suffixAgo: "ago",
-        suffixFromNow: "from now",
-        seconds: "less than a minute",
-        minute: "about a minute",
-        minutes: "%d minutes",
-        hour: "about an hour",
-        hours: "about %d hours",
-        day: "a day",
-        days: "%d days",
-        month: "about a month",
-        months: "%d months",
-        year: "about a year",
-        years: "%d years",
-        wordSeparator: " ",
-        numbers: []
-      },
-      stringsStrict: {
         prefixAgo: null,
         prefixFromNow: null,
         suffixAgo: "ago",
@@ -59,19 +39,19 @@
         minutes: "%d minutes", 
         hour: "1 hour",
         hours: "%d hours",
-        day: "a day",
+        day: "about a day",
         days: "%d days",
-        month: "a month",
+        month: "about a month",
         months: "%d months",
-        year: "a year",
+        year: "about a year",
         years: "%d years",
         timeSeparator: "and",
         wordSeparator: " ",
         numbers: []
-      }
+      },   
     },
     inWords: function(distanceMillis) {
-      var $l = this.settings.strict ? this.settings.stringsStrict : this.settings.strings;
+      var $l = this.settings.strings;
       var prefix = $l.prefixAgo;
       var suffix = $l.suffixAgo;
       if (this.settings.allowFuture) {
@@ -96,14 +76,14 @@
 
       function remainderInWords(singular, plural, remainder){
         if(remainder == 0){
-          return ''; // early out
+          return ''; 
         }
         var words = remainder == 1 ? substitute(singular, remainder) : substitute(plural, remainder);
         return $l.wordSeparator + $l.timeSeparator + $l.wordSeparator + words;
       }
 
       var words = seconds < 45 && substitute($l.seconds, Math.round(seconds)) ||
-        seconds < 45 && substitute($l.minute, 1) ||
+        seconds < 90 && substitute($l.minute, 1) ||
         minutes < 60 && substitute($l.minutes, Math.round(minutes)) ||
         minutes < 120 && substitute($l.hour, 1) + remainderInWords($l.minute , $l.minutes, Math.round(remainingMinutes))  ||       
         hours < 24 && substitute($l.hours, Math.round(hours)) + remainderInWords($l.minute , $l.minutes, Math.round(remainingMinutes)) ||
