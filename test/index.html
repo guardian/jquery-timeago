@@ -194,6 +194,15 @@
       <li><abbr id="testMillisSettings8" class="tomillis" title="90"></abbr> [90 sec]</li>
       <li><abbr id="testMillisSettings9" class="tomillis" title="120"></abbr> [120 sec]</li>
     </ul>
+
+    <h2>Relative to set time</h2>
+
+    <ul>
+      <li><abbr id="testRelative1" class="relative"></abbr> [1 minute]</li>
+      <li><abbr id="testRelative2" class="relative"></abbr> [3 minutes]</li>      
+      <li><abbr id="testRelative3" class="relative"></abbr> [2 hours]</li>
+    </ul>
+
   </div>
 
   <script src="test_helpers.js" type="text/javascript"></script>
@@ -220,7 +229,7 @@
       $.timeago.settings.allowFuture = true;
 
       prepareDynamicDates();
-
+      
       $("abbr.timeago").timeago();
       $("time.timeago").timeago();
 
@@ -251,7 +260,16 @@
 
       loadMillis();
       $("abbr.tomillis").each(toWords);
+      loadDefaults();
 
+      // testing relative to the server time 
+      $("#testRelative1").attr('title', '2012-01-01T15:03:00Z'); // - 60 sec
+      $("#testRelative2").attr('title', '2012-01-01T15:01:00Z'); // - 180 sec
+      $("#testRelative3").attr('title', '2012-01-01T13:04:00Z'); // - 120 min
+      
+      $.timeago.clearServerTime();
+      $("abbr.relative").timeago("2012-01-01T15:04:00Z"); 
+   
       module("Valid date");
 
       test("Text in abbr tag should be replaced", function () {
@@ -355,7 +373,7 @@
       });
 
       test("-60 sec", function () {
-        ok(($("#testWording2").html() === "a minute from now"), "Correctly parsed");
+        ok(($("#testWording2").html() === "1 minute from now"), "Correctly parsed");
       });
 
       test("-30 sec", function () {
@@ -375,7 +393,7 @@
       });
 
       test("45 sec", function () {
-        ok(($("#testWording7").html() === "a minute ago"), "Correctly parsed");
+        ok(($("#testWording7").html() === "1 minute ago"), "Correctly parsed");
       });
 
       test("90 sec", function () {
@@ -395,7 +413,7 @@
       });
 
       test("61 min", function () {
-        ok(($("#testWording10b").html() === "1 hour and a minute ago"), "Correctly parsed");
+        ok(($("#testWording10b").html() === "1 hour and 1 minute ago"), "Correctly parsed");
       });
           
       test("89 min", function () {
@@ -411,7 +429,7 @@
       });
 
       test("121 min", function () {
-        ok(($("#testWording13a").html() === "2 hours and a minute ago"), "Correctly parsed");
+        ok(($("#testWording13a").html() === "2 hours and 1 minute ago"), "Correctly parsed");
       });
 
       test("1380 min", function () {
@@ -419,11 +437,11 @@
       });
 
       test("25 hours", function () {
-        ok(($("#testWording15").html() === "about a day ago"), "Correctly parsed");
+        ok(($("#testWording15").html() === "a day ago"), "Correctly parsed");
       });
 
       test("41 hour", function () {
-        ok(($("#testWording16a").html() === "about a day ago"), "Correctly parsed");
+        ok(($("#testWording16a").html() === "a day ago"), "Correctly parsed");
       });
       test("42 hours", function () {
         ok(($("#testWording16b").html() === "2 days ago"), "Correctly parsed");
@@ -437,7 +455,7 @@
       });
 
       test("30 days", function () {
-        ok(($("#testWording18").html() === "about a month ago"), "Correctly parsed");
+        ok(($("#testWording18").html() === "a month ago"), "Correctly parsed");
       });
 
       test("190 days", function () {
@@ -445,7 +463,7 @@
       });
 
       test("366 days", function () {
-        ok(($("#testWording20").html() === "about a year ago"), "Correctly parsed");
+        ok(($("#testWording20").html() === "a year ago"), "Correctly parsed");
       });
 
       test("725 days", function () {
@@ -546,6 +564,15 @@
 
       test("wordSeparator", function () {
         ok($("#testNoSpaces1").html().match(/^2minutesago$/), "Settings correctly applied");
+      });
+
+      module("Relative");
+
+      test("relative", function () {
+        ok($("#testRelative1").html() === "1 minute ago", "Settings correctly applied");
+        ok($("#testRelative2").html() === "3 minutes ago", "Settings correctly applied");
+        ok($("#testRelative3").html() === "2 hours ago", "Settings correctly applied");
+        
       });
     })(jQuery);
     //]]>

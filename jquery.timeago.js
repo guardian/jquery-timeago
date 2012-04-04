@@ -27,23 +27,24 @@
 
   $.extend($.timeago, {
     settings: {
-      refreshMillis: 60000,
-      allowFuture: false,    
+      refreshMillis: 60 000,
+      allowFuture: false,
+      serverTime: '',    
       strings: {
         prefixAgo: null,
         prefixFromNow: null,
         suffixAgo: "ago",
         suffixFromNow: "from now",
         seconds: "less than a minute",
-        minute: "a minute",
+        minute: "1 minute",
         minutes: "%d minutes", 
         hour: "1 hour",
         hours: "%d hours",
-        day: "about a day",
+        day: "a day",
         days: "%d days",
-        month: "about a month",
+        month: "a month",
         months: "%d months",
-        year: "about a year",
+        year: "a year",
         years: "%d years",
         timeSeparator: "and",
         wordSeparator: " ",
@@ -109,22 +110,40 @@
       var isTime = $(elem).get(0).tagName.toLowerCase() === "time"; // $(elem).is("time");
       var iso8601 = isTime ? $(elem).attr("datetime") : $(elem).attr("title");
       return $t.parse(iso8601);
-    }
+    },
+    clearServerTime: function(){      
+      $t.serverTime = null;
+    },
+    collection: null
   });
 
-  $.fn.timeago = function() {
-    var self = this;
-    self.each(refresh);
-
+  $.fn.timeago = function(startTimestamp) {
     var $s = $t.settings;
-    if ($s.refreshMillis > 0) {
-      setInterval(function() { self.each(refresh); }, $s.refreshMillis);
+    // This persists a timestamp even when timeago is rerun on a page.     
+    if (!$t.serverTime && typeof startTimestamp === "string") {
+      $t.serverTime = $t.parse(startTimestamp);        
+    } else if (!$t.serverTime && !startTimestamp) {       
+      $t.serverTime = new Date();     
     }
-    return self;
+    console.log($t.serverTime);
+    $t.collection = this;
+    $t.collection.each(refresh);
+    
+    if ($s.refreshMillis > 0 && !$t.tick) {
+      $t.tick = setInterval(updateDates, $s.refreshMillis);
+    }
+    return $t.collection;
   };
 
-  function refresh() {
-    var data = prepareData(this);
+  function updateDates() { 
+    var newTime = $t.serverTime.getTime() + $t.settings.refreshMillis;
+    $t.serverTime = new Date(newTime);   
+    $t.collection.each(refresh);    
+  }
+ 
+  function refresh() {   
+    var data = prepareData(this);  
+
     if (!isNaN(data.datetime)) {
       $(this).text(inWords(data.datetime));
     }
@@ -148,7 +167,11 @@
   }
 
   function distance(date) {
-    return (new Date().getTime() - date.getTime());
+    return $t.serverTime.getTime() - date.getTime();
+  }
+
+  function clearServerTime() {
+    return $t.clearServerTime();    
   }
 
   // fix for IE6 suckage

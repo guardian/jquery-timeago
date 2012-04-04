@@ -97,6 +97,25 @@ function loadMillis() {
   };
 }
 
+function loadDefaults() {
+   jQuery.timeago.settings.strings = {
+    suffixAgo: "ago",
+    suffixFromNow: "from now",
+    seconds: "less than a minute",
+    minute: "1 minute",
+    minutes: "%d minutes", 
+    hour: "1 hour",
+    hours: "%d hours",
+    day: "a day",
+    days: "%d days",
+    month: "a month",
+    months: "%d months",
+    year: "a year",
+    years: "%d years",  
+    wordSeparator: " ",      
+  };
+}
+
 function loadNoSpaces() {
   jQuery.extend(jQuery.timeago.settings.strings, {
     minutes: "%dminutes",
