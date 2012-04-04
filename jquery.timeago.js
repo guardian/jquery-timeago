@@ -75,10 +75,10 @@
       }
 
       function remainderInWords(singular, plural, remainder){
-        if(remainder == 0){
+        if(remainder === 0){
           return ''; 
         }
-        var words = remainder == 1 ? substitute(singular, remainder) : substitute(plural, remainder);
+        var words = remainder === 1 ? substitute(singular, remainder) : substitute(plural, remainder);
         return $l.wordSeparator + $l.timeSeparator + $l.wordSeparator + words;
       }
 
@@ -124,7 +124,6 @@
     } else if (!$t.serverTime && !startTimestamp) {       
       $t.serverTime = new Date();     
     }
-    console.log($t.serverTime);
     $t.collection = this;
     $t.collection.each(refresh);
     
@@ -150,7 +149,7 @@
   }
 
   function prepareData(element) {
-    element = $(element);
+    varelement = $(element);
     if (!element.data("timeago")) {
       element.data("timeago", { datetime: $t.datetime(element) });
       var text = $.trim(element.text());
