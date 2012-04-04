@@ -27,9 +27,8 @@
 
   $.extend($.timeago, {
     settings: {
-      refreshMillis: 60 000,
+      refreshMillis: 60000,
       allowFuture: false,
-      serverTime: '',    
       strings: {
         prefixAgo: null,
         prefixFromNow: null,
